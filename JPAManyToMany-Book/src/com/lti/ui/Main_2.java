@@ -24,10 +24,13 @@ public class Main_2 {
 	public static void main(String[] args) {
 
 		loadData();
-		String jpql = "From Books";
+		String name = "James Gosling";
+		String jpql = "select distinct b from Books b join b.authors auth where auth.name ='"+name+"'";
+//		((Query) entityManager).setParameter("name",name);
 		TypedQuery<Books> typedQuery = entityManager.createQuery(jpql, Books.class);
 		List<Books> books = typedQuery.getResultList();
 		
+		System.out.println("Query All Books written by given author name");
 		for(Books b: books){
 			System.out.println("Books Id: "+ b.getIsbn());
 			System.out.println("Book Title: " + b.getTitle());

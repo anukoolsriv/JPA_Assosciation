@@ -12,7 +12,7 @@ import javax.persistence.TypedQuery;
 import com.lti.model.Authors;
 import com.lti.model.Books;
 
-public class Main_1 {
+public class Main_4 {
 	private static EntityManagerFactory factory;
 	private static EntityManager entityManager;
 
@@ -24,31 +24,32 @@ public class Main_1 {
 	public static void main(String[] args) {
 
 		loadData();
-		String jpql = "From Books";
-		TypedQuery<Books> typedQuery = entityManager.createQuery(jpql, Books.class);
-		List<Books> books = typedQuery.getResultList();
+		int id=3;
+		String jpql = "select a from Authors a join a.books b where b.isbn = "+id;
+//		((Query) entityManager).setParameter("name",name);
+		TypedQuery<Authors> typedQuery = entityManager.createQuery(jpql, Authors.class);
+		List<Authors> authors = typedQuery.getResultList();
 		
-		
-		System.out.println("Query all books in database");
-		for(Books b: books){
-			System.out.println("Books Id: "+ b.getIsbn());
-			System.out.println("Book Title: " + b.getTitle());
-			System.out.println("Book Price: " + b.getPrice());
-			Set<Authors> authors = b.getAuthors();
-			
+		System.out.println("List author name for given book id");
+//		for(Books b: books){
+//			System.out.println("Books Id: "+ b.getIsbn());
+//			System.out.println("Book Title: " + b.getTitle());
+//			System.out.println("Book Price: " + b.getPrice());
+//			Set<Authors> authors = b.getAuthors();
+//			
 			for(Authors a: authors){
 				System.out.println("Author Id: " + a.getId());
 				System.out.println("Author Name: " + a.getName());
 			}
 			System.out.println("----------------------------------");
-		}
+//		}
 		entityManager.close();
 		factory.close();
 	}
 
 	public static void loadData() {
 		Books book1 = new Books(1, "Wings Of Fire", 299.78);
-		Books book2 = new Books(3, "Goblet of Fire", 450.34);
+		Books book2 = new Books(3, "Goblet of Fire", 950.34);
 
 		Authors author1 = new Authors(10, "A.P.J Abdul Kalam");
 		Authors author2 = new Authors(15, "J.K.Rowling");
